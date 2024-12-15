@@ -1,0 +1,25 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/navbar.astro";
+import type { Product } from "../../types/product";
+
+const { id } = Astro.params;
+
+const res = await fetch(`https://fakestoreapi.com/products/${id}`);
+const product = await res.json();
+
+export async function getStaticPaths() {
+  const res = await fetch("https://fakestoreapi.com/products");
+  const products = await res.json();
+
+  return products.map((product: Product) => ({
+    params: { id: product.id.toString() },
+  }));
+}
+
+const { image, title, price, description } = product;
+---
+
+<Layout>
+  <Navbar />
+</Layout>

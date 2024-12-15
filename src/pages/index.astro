@@ -1,5 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import type { Product as Typeproduct } from "../types/product";
+import Product from "../components/product.astro";
+
+const res = await fetch("https://fakestoreapi.com/products");
+const products = await res.json();
 ---
 
 <Layout>
@@ -13,6 +18,10 @@ import Layout from "../layouts/Layout.astro";
       (0)
     </div>
   </nav>
+
+  <main class="main">
+    {products.map((product: Typeproduct) => <Product product={product} />)}
+  </main>
 </Layout>
 
 <style>
@@ -26,5 +35,14 @@ import Layout from "../layouts/Layout.astro";
     display: flex;
     gap: 8px;
     align-items: center;
+  }
+
+  .main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    gap: 16px;
   }
 </style>

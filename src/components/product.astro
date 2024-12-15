@@ -1,21 +1,30 @@
 ---
 interface Props {
   product: {
-    name: string;
+    title: string;
     price: number;
     image: string;
     description: string;
   };
 }
 
-const { image, name, price, description } = Astro.props.product;
+const { image, title, price, description } = Astro.props.product;
 ---
 
 <section class="product">
-  <img src={image} alt={name} />
-  <h2 class="subtitle">{name}</h2>
+  <img src={image} alt={title} />
+  <h2 class="subtitle">{title}</h2>
   <p class="description">{description}</p>
-  <p class="price">${price}</p>
+  <p class="price">
+    {
+      price.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    }
+  </p>
 </section>
 
 <style>

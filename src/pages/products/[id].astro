@@ -44,6 +44,10 @@ const { image, title, price, description, category } = product;
     <section class="rate">
       <Rating rating={product.rating} />
     </section>
+    <section class="options">
+      <button onclick="window.localStorage.setItem('cart', product.id); window.location.href = '/'" class="btn">add to cart</button>
+      <a href="/" class="btn">cancel</a>
+    </section>
   </main>
 </Layout>
 
@@ -84,6 +88,32 @@ const { image, title, price, description, category } = product;
     justify-content: space-between;
     align-items: center;
     width: 200px;
+  }
+
+  .option {
+    margin-bottom: 3rem;
+  }
+
+  .btn {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #666;
+      scale: 1.1;
+    }
+
+    &:active {
+      background-color: #444;
+      scale: 0.9;
+    }
   }
   
   @media screen and (max-width: 600px) {

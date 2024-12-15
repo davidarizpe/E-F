@@ -29,15 +29,16 @@ function getStars(rating: Rating, index: number): "full" | "half" | "empty" {
         ))
     }
   </article>
-  <p class="rating-value">rate:{rating.rate}</p>
-  <p class="rating-count">{rating.count} reviews</p>
+  <div class="maindata">
+    <p class="rating-value">rate:{rating.rate}</p>
+    <p class="rating-count">{rating.count} reviews</p>
+  </div>
 </section>
 
 <style>
   .rating {
     font-family: Arial, sans-serif;
     padding: 1rem;
-    border: 1px solid #ccc;
     border-radius: 8px;
     max-width: 300px;
     text-align: center;
@@ -70,9 +71,10 @@ function getStars(rating: Rating, index: number): "full" | "half" | "empty" {
     font-size: 0.9rem;
   }
 
-  .subtitle {
-    font-size: 1.6rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
+  .maindata {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
   }
 </style>

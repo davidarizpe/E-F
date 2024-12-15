@@ -18,10 +18,77 @@ export async function getStaticPaths() {
   }));
 }
 
-const { image, title, price, description } = product;
+const { image, title, price, description, category } = product;
 ---
 
 <Layout>
   <Navbar />
-  <Rating rating={product.rating} />
+  <main class="main">
+    <img class="image" src={image} alt={title} />
+    <h2 class="subtitle">{title}</h2>
+    <div class="maindata">
+      <span class="category">{category}</span>
+      <br />
+      <span class="price">
+        {
+          price.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
+        }
+      </span>
+    </div>
+    <p class="description">{description}</p>
+    <section class="rate">
+      <Rating rating={product.rating} />
+    </section>
+  </main>
 </Layout>
+
+<style>
+  .main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .category {
+    color: #f5c518;
+  }
+
+  .price {
+    color: #e67e22;
+  }
+
+  .description {
+    max-width: 700px;
+    text-align: justify;
+  }
+
+  .image {
+    width: 80%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 15px 30px
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .maindata {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .image {
+      width: 100%;
+    }
+  }
+</style>

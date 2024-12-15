@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
 import type { Product as Typeproduct } from "../types/product";
 import Product from "../components/product.astro";
 
@@ -8,16 +9,7 @@ const products = await res.json();
 ---
 
 <Layout>
-  <nav class="nav">
-    <header class="header">
-      <img src="/public/bigicon.png" alt="E&F" class="logo" />
-      <h1 class="title">Electronic & Fast</h1>
-    </header>
-    <div class="cart">
-      <img src="/src/assets/cart.svg" alt="cart" class="icon" />
-      (0)
-    </div>
-  </nav>
+  <Navbar />
 
   <main class="main">
     {products.map((product: Typeproduct) => <Product product={product} />)}
@@ -25,18 +17,6 @@ const products = await res.json();
 </Layout>
 
 <style>
-  .cart {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-  }
-
-  .header {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
   .main {
     display: flex;
     flex-wrap: wrap;

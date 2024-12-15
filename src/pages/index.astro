@@ -20,7 +20,13 @@ const products = await res.json();
   </nav>
 
   <main class="main">
-    {products.map((product: Typeproduct) => <Product product={product} />)}
+    {
+      products.map((product: Typeproduct) => (
+        <a href={`/products/${product.id}`}>
+          <Product product={product} />
+        </a>
+      ))
+    }
   </main>
 </Layout>
 
@@ -44,5 +50,9 @@ const products = await res.json();
     align-items: center;
     padding: 16px;
     gap: 16px;
+  }
+
+  a {
+    text-decoration: none;
   }
 </style>

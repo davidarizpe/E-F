@@ -5,6 +5,7 @@ Minimalist e-commerce made it with the api "fakestoreapi"
 ## Feature
 
 - Add a functional shopping cart
+- Solve images issue
 
 ## Run Locally
 

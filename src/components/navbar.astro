@@ -1,0 +1,28 @@
+---
+const { cart } = Astro.props;
+---
+
+<nav class="nav">
+  <header class="header">
+    <img src="/public/bigicon.png" alt="E&F" class="logo" />
+    <h1 class="title">Electronic & Fast</h1>
+  </header>
+  <div class="cart">
+    <img src="/src/assets/cart.svg" alt="cart" class="icon" />
+    ({cart})
+  </div>
+</nav>
+
+<style>
+  .cart {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .header {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+</style>

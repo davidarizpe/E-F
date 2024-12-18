@@ -1,17 +1,14 @@
 ---
+import type { Product } from "../types/product";
+
 interface Props {
-  product: {
-    title: string;
-    price: number;
-    image: string;
-    description: string;
-  };
+  product: Product;
 }
 
-const { image, title, price, description } = Astro.props.product;
+const { id, image, title, price, description } = Astro.props.product;
 ---
 
-<section class="product">
+<a href={`/products/${id}`} class="product">
   <img src={image} alt={title} />
   <h2 class="subtitle">{title}</h2>
   <p class="description">{description}</p>
@@ -25,9 +22,13 @@ const { image, title, price, description } = Astro.props.product;
       })
     }
   </p>
-</section>
+</a>
 
 <style>
+  * {
+    text-decoration: none;
+  }
+
   .product {
     background-color: #f9f9f9;
     color: #333;
@@ -38,8 +39,10 @@ const { image, title, price, description } = Astro.props.product;
     max-width: 320px;
     margin: 0 auto;
     transition:
-      transform 0.3s,
-      box-shadow 0.3s;
+      transform 0.1s,
+      box-shadow 0.15s ease;
+    cursor: pointer;
+    text-decoration: none;
   }
 
   .product:hover {
@@ -54,13 +57,6 @@ const { image, title, price, description } = Astro.props.product;
     margin-bottom: 16px;
     border-radius: 12px;
     object-fit: cover;
-  }
-
-  .product h2.subtitle {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: #444;
   }
 
   .product p.description {

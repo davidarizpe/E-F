@@ -1,124 +1,183 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import Navbar from "../../components/Navbar.astro";
-import Rating from "../../components/rating.astro";
-import type { Product } from "../../types/product";
+import Product from "../../components/product.astro";
+import Navbar from "../../components/navbar.astro";
+import type { Product as Typeproduct } from "../../types/product";
 
 const { id } = Astro.params;
 
-const res = await fetch(`https://fakestoreapi.com/products/${id}`);
-const product = await res.json();
+const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+const product = await response.json();
 
 export async function getStaticPaths() {
-  const res = await fetch("https://fakestoreapi.com/products");
+  const res = await fetch(`https://fakestoreapi.com/products/`);
   const products = await res.json();
 
-  return products.map((product: Product) => ({
+  const paths = products.map((product: Typeproduct) => ({
     params: { id: product.id.toString() },
   }));
-}
 
-const { image, title, price, description, category } = product;
+  return paths;
+}
 ---
 
 <Layout>
-  <Navbar />
+  <Navbar cart={0} />
   <main class="main">
-    <img class="image" src={image} alt={title} />
-    <h2 class="subtitle">{title}</h2>
-    <div class="maindata">
-      <span class="category">{category}</span>
-      <br />
-      <span class="price">
-        {
-          price.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
-        }
-      </span>
-    </div>
-    <p class="description">{description}</p>
-    <section class="rate">
-      <Rating rating={product.rating} />
-    </section>
-    <section class="options">
-      <button onclick="window.localStorage.setItem('cart', product.id); window.location.href = '/'" class="btn">add to cart</button>
-      <a href="/" class="btn">cancel</a>
-    </section>
+    <img class="productimage" src={product.image} alt={product.title} />
+    <h2 class="subtitle">{product.title}</h2>
+    <p class="category">{product.category}</p>
+    <span class="price"
+      >{
+        product.price.toLocaleString("en-Us", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      }
+    </span>
+    <p class="description">{product.description}</p>
   </main>
+
+  <section class="rating">
+    <h3>Rating</h3>
+    <div class="starts">
+      {
+        Array.from({ length: 5 }).map((_, index) => {
+          const full = index < Math.round(product.rating.rate);
+          const half =
+            index < Math.round(product.rating.rate) + 1 &&
+            product.rating.rate % 1 >= 0.25 &&
+            product.rating.rate % 1 < 0.76;
+
+          return (
+            <span class={`star ${full ? "full" : half ? "half" : "empty"}`}>
+              {full ? "★" : half ? "★" : "☆"}
+            </span>
+          );
+        })
+      }
+    </div>
+    <p>rate: {product.rating.rate}</p>
+    <p>{product.rating.count} reviews</p>
+  </section>
+
+  <button class="cart-btn">add to cart</button>
 </Layout>
 
 <style>
+  body {
+    min-height: 100vh;
+  }
+
+  .rating {
+    margin: 15px 25px;
+  }
+
   .main {
+    padding: 30px;
+    margin: 15px;
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 16px;
-    gap: 16px;
+    width: 70%;
+    background-color: rgb(203, 203, 203);
+    color: black;
   }
 
-  .category {
-    color: #f5c518;
+  main .subtitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: left;
+    width: 100%;
   }
 
-  .price {
-    color: #e67e22;
+  main .category {
+    font-size: 18px;
+    color: rgb(73, 73, 73);
+    margin-top: 10px;
+    text-align: left;
+    width: 100%;
   }
 
-  .description {
-    max-width: 700px;
-    text-align: justify;
-  }
-
-  .image {
-    width: 80%;
-    height: auto;
-    object-fit: cover;
+  main .productimage {
+    max-width: 100%;
+    max-height: 1200px;
     border-radius: 12px;
-    margin: 15px 30px
+    object-fit: cover;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    text-align: left;
+    width: 100%;
   }
 
-  .maindata {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 200px;
+  main .price {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #e67e22;
+    text-align: left;
+    width: 100%;
   }
 
-  .option {
-    margin-bottom: 3rem;
+  main .description {
+    margin-top: 10px;
+    color: rgb(73, 73, 73);
+    text-align: left;
+    max-width: 600px;
+    width: 100%;
+    word-wrap: break-word;
+    align-self: flex-start;
   }
 
-  .btn {
-    background-color: #555;
+  .cart-btn {
+    background-color: #444;
     color: white;
+    border-radius: 12px;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
+    padding: 15px 20px;
+    margin: 15px;
     cursor: pointer;
-    text-decoration: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
 
-    &:hover {
-      background-color: #666;
-      scale: 1.1;
-    }
-
-    &:active {
-      background-color: #444;
-      scale: 0.9;
-    }
+    transition: all 0.3s ease-in-out;
   }
-  
-  @media screen and (max-width: 600px) {
-    .image {
-      width: 100%;
-    }
+
+  .cart-btn:hover {
+    background-color: #555;
+    scale: 1.1;
+  }
+
+  .cart-btn:active {
+    background-color: #222;
+    scale: 0.9;
+  }
+
+  .rating {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .starts {
+    display: flex;
+    gap: 2px;
+  }
+
+  .star {
+    font-size: 30px;
+    cursor: pointer;
+  }
+  .star.full {
+    color: gold;
+  }
+  .star.half {
+    background: linear-gradient(90deg, gold 50%, gray 50%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .star.empty {
+    color: gray
   }
 </style>

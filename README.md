@@ -29,7 +29,7 @@ npm install
 4. Start the server
 
 ```bash
-npm run start
+npm run preview
 ```
 
 ## License

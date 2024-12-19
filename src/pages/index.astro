@@ -3,7 +3,6 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
 import type { Product as Typeproduct } from "../types/product";
 import Product from "../components/product.astro";
-import Navbar from "../components/navbar.astro";
 
 const res = await fetch("https://fakestoreapi.com/products");
 const products = await res.json();
